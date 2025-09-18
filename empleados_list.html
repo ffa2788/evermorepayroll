@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+  <h4>Empleados</h4>
+  <a class="btn btn-primary" href="{{ url_for('empleados_nuevo') }}">Nuevo</a>
+</div>
+<form class="row g-2 mb-3">
+  <div class="col-auto"><input class="form-control" name="q" placeholder="Buscar..." value="{{ q }}"></div>
+  <div class="col-auto"><button class="btn btn-outline-secondary">Buscar</button></div>
+</form>
+<table class="table table-sm table-striped">
+  <thead><tr>
+    <th>ID</th><th>Foto</th><th>Nombre</th><th>Puesto</th><th>Tipo Pago</th><th>Tarifa/Hora</th><th>Salario Mensual</th><th>Horario</th><th>Activo</th><th></th>
+  </tr></thead>
+  <tbody>
+    {% for e in empleados %}
+    <tr>
+      <td>{{ e.id }}</td>
+      <td>{% if e.foto %}<img src="{{ e.foto }}" style="height:36px;width:36px;object-fit:cover;border-radius:50%">{% else %}<span class="badge text-bg-light">-</span>{% endif %}</td>
+      <td>{{ e.nombres }} {{ e.apellidos }}</td>
+      <td>{{ e.puesto }}</td>
+      <td>{{ e.tipo_pago }}</td>
+      <td>{{ e.tarifa_hora|money }}</td>
+      <td>{{ e.salario_mensual|money }}</td>
+      <td>{{ e.horario_entrada }}</td>
+      <td>{{ 'Sí' if e.activo else 'No' }}</td>
+      <td class="text-end">
+        <a class="btn btn-sm btn-outline-primary" href="{{ url_for('empleados_editar', emp_id=e.id) }}">Editar</a>
+        <form method="post" action="{{ url_for('empleados_borrar', emp_id=e.id) }}" class="d-inline" onsubmit="return confirm('¿Eliminar?')">
+          <button class="btn btn-sm btn-outline-danger">Borrar</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

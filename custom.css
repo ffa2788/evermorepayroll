@@ -1,0 +1,3 @@
+.container-narrow { max-width: 980px; }
+.table-sm td, .table-sm th { padding: .4rem; }
+.badge-mini { font-size: .65rem; }

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between mb-2">
+  <h4>Nómina: {{ p.nombre }}</h4>
+  <a class="btn btn-outline-secondary" href="{{ url_for('nomina_csv', pid=p.id) }}">Exportar CSV</a>
+</div>
+<table class="table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>Empleado</th><th>Horas</th><th>Bruto</th>
+      {% if p.items %}
+        {% for k in p.items[0].deducciones.keys() %}<th>Ded: {{ k }}</th>{% endfor %}
+        {% for k in p.items[0].impuestos.keys() %}<th>Imp: {{ k }}</th>{% endfor %}
+      {% endif %}
+      <th>Neto</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in items %}
+    <tr>
+      <td>{{ i.empleado.nombres }} {{ i.empleado.apellidos }}</td>
+      <td>{{ i.horas_trabajadas }}</td>
+      <td>{{ i.salario_bruto|money }}</td>
+      {% for v in i.deducciones.values() %}<td>{{ v|money }}</td>{% endfor %}
+      {% for v in i.impuestos.values() %}<td>{{ v|money }}</td>{% endfor %}
+      <td><strong>{{ i.salario_neto|money }}</strong></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  <tfoot>
+    <tr class="table-light">
+      <th colspan="2" class="text-end">Totales</th>
+      <th>{{ total_bruto|money }}</th>
+      {% if items %}
+        {% for k in items[0].deducciones.keys() %}
+          <th>{{ items|map(attribute='deducciones')|map(attribute=k)|sum|money }}</th>
+        {% endfor %}
+        {% for k in items[0].impuestos.keys() %}
+          <th>{{ items|map(attribute='impuestos')|map(attribute=k)|sum|money }}</th>
+        {% endfor %}
+      {% endif %}
+      <th>{{ total_neto|money }}</th>
+    </tr>
+  </tfoot>
+</table>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h4>Nueva asistencia</h4>
+<form method="post" class="row g-3 mt-1">
+  <div class="col-md-4">
+    <label class="form-label">Empleado</label>
+    <select name="empleado_id" class="form-select" required>
+      {% for e in empleados %}
+      <option value="{{ e.id }}">{{ e.nombres }} {{ e.apellidos }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-3">
+    <label class="form-label">Fecha</label>
+    <input name="fecha" type="date" class="form-control" value="{{ hoy }}" required>
+  </div>
+  <div class="col-md-2">
+    <label class="form-label">Entrada (HH:MM)</label>
+    <input name="hora_entrada" class="form-control" placeholder="08:00" required>
+  </div>
+  <div class="col-md-2">
+    <label class="form-label">Salida (HH:MM)</label>
+    <input name="hora_salida" class="form-control" placeholder="17:00" required>
+  </div>
+  <div class="col-12">
+    <button class="btn btn-primary">Guardar</button>
+    <a class="btn btn-secondary" href="{{ url_for('asistencias_list') }}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}

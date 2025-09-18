@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+  <h4>Asistencias</h4>
+  <a class="btn btn-primary" href="{{ url_for('asistencias_nuevo') }}">Nuevo</a>
+</div>
+<form class="row g-2 mb-3">
+  <div class="col-auto"><label class="form-label">Desde</label><input name="desde" type="date" class="form-control" value="{{ desde }}"></div>
+  <div class="col-auto"><label class="form-label">Hasta</label><input name="hasta" type="date" class="form-control" value="{{ hasta }}"></div>
+  <div class="col-auto">
+    <label class="form-label">Empleado</label>
+    <select name="empleado_id" class="form-select">
+      <option value="">Todos</option>
+      {% for e in empleados %}
+      <option value="{{ e.id }}" {% if empleado_id|int==e.id %}selected{% endif %}>{{ e.nombres }} {{ e.apellidos }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-auto align-self-end"><button class="btn btn-outline-secondary">Filtrar</button></div>
+</form>
+<table class="table table-sm table-striped">
+  <thead><tr>
+    <th>Fecha</th><th>Empleado</th><th>Entrada</th><th>Salida</th><th>Min. tarde</th>
+  </tr></thead>
+  <tbody>
+    {% for a in asistencias %}
+    <tr>
+      <td>{{ a.fecha }}</td>
+      <td>{{ a.empleado.nombres }} {{ a.empleado.apellidos }}</td>
+      <td>{{ a.hora_entrada or '' }}</td>
+      <td>{{ a.hora_salida or '' }}</td>
+      <td>{{ a.minutos_tarde }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

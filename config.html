@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<h4>Configuración</h4>
+<form method="post" class="row g-3">
+  <div class="col-md-2">
+    <label class="form-label">Moneda (símbolo)</label>
+    <input name="moneda" class="form-control" value="{{ conf.moneda }}">
+  </div>
+  <div class="col-md-5">
+    <label class="form-label">Reglas de Deducciones (JSON)</label>
+    <textarea name="reglas_deducciones_json" class="form-control" rows="8">[
+  {"nombre":"Seguro Social","tipo":"porcentaje","valor":5,"base":"bruto"},
+  {"nombre":"Cooperativa","tipo":"fijo","valor":200,"base":"pre-neta"}
+]</textarea>
+    <div class="form-text">Formato: lista de objetos con nombre, tipo ("porcentaje" o "fijo"), valor y base ("bruto" o "pre-neta").</div>
+  </div>
+  <div class="col-md-5">
+    <label class="form-label">Reglas de Impuestos (JSON)</label>
+    <textarea name="reglas_impuestos_json" class="form-control" rows="8">[
+  {"nombre":"Impuesto Renta","tipo":"porcentaje","valor":1.5,"base":"bruto"}
+]</textarea>
+  </div>
+  
+  <div class="col-md-12"><hr></div>
+  <div class="col-md-4">
+    <label class="form-label">Proveedor biometría</label>
+    <input name="bio_provider" class="form-control" value="{{ conf.bio_provider or '' }}" placeholder="Ej. ZKTeco, Hik, etc.">
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">API Base</label>
+    <input name="bio_api_base" class="form-control" value="{{ conf.bio_api_base or '' }}" placeholder="https://api.proveedor.com">
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">API Token</label>
+    <input name="bio_api_token" class="form-control" value="{{ conf.bio_api_token or '' }}" placeholder="secreto...">
+    <div class="form-text">Solo almacén local. Recomiendo usar secretos en producción.</div>
+  </div>
+  <div class="col-md-12">
+    <a class="btn btn-outline-secondary mt-2" href="/biometria/test" target="_blank">Probar conexión (dummy)</a>
+  </div>
+
+  <div class="col-12">
+    <button class="btn btn-primary">Guardar</button>
+  </div>
+</form>
+{% endblock %}

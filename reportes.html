@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<h4>Reportes</h4>
+<form class="row g-2 mb-3">
+  <div class="col-auto"><label class="form-label">Desde</label><input name="desde" type="date" class="form-control" value="{{ desde }}"></div>
+  <div class="col-auto"><label class="form-label">Hasta</label><input name="hasta" type="date" class="form-control" value="{{ hasta }}"></div>
+  <div class="col-auto align-self-end"><button class="btn btn-outline-secondary">Aplicar</button></div>
+</form>
+
+<div class="row g-3">
+  <div class="col-md-7">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h6 class="mb-3">Asistencia (agregada)</h6>
+        <table class="table table-sm table-striped">
+          <thead><tr><th>Empleado</th><th>Horas</th><th>Min. Tarde</th></tr></thead>
+          <tbody>
+            {% for r in data %}
+            <tr><td>{{ r["Empleado"] }}</td><td>{{ r["Horas Trabajadas"] }}</td><td>{{ r["Min. Tarde"] }}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-5">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h6 class="mb-3">Ranking de puntualidad (mejores arriba)</h6>
+        <ol class="mb-0">
+          {% for r in ranking %}
+          <li>{{ r["Empleado"] }} — {{ r["Min. Tarde"] }} min tarde</li>
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

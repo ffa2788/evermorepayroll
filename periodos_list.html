@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+  <h4>Períodos de nómina</h4>
+  <form class="d-flex gap-2" method="post" action="{{ url_for('periodos_nuevo') }}">
+    <input name="nombre" class="form-control" placeholder="Ej. Quincena Sept-1" required>
+    <input name="fecha_inicio" type="date" class="form-control" required>
+    <input name="fecha_fin" type="date" class="form-control" required>
+    <button class="btn btn-primary">Crear</button>
+  </form>
+</div>
+<table class="table table-sm table-striped">
+  <thead><tr><th>ID</th><th>Nombre</th><th>Inicio</th><th>Fin</th><th>Estado</th><th></th></tr></thead>
+  <tbody>
+    {% for p in periodos %}
+    <tr>
+      <td>{{ p.id }}</td>
+      <td><a href="{{ url_for('nomina_detalle', pid=p.id) }}">{{ p.nombre }}</a></td>
+      <td>{{ p.fecha_inicio }}</td>
+      <td>{{ p.fecha_fin }}</td>
+      <td>{{ p.estado }}</td>
+      <td class="text-end">
+        <form method="post" action="{{ url_for('periodos_calcular', pid=p.id) }}">
+          <button class="btn btn-sm btn-success">Calcular nómina</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

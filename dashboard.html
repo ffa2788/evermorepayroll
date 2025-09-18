@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row g-3">
+  <div class="col-md-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="text-muted">Empleados</div>
+            <div class="h3">{{ empleados }}</div>
+          </div>
+          <span class="badge text-bg-secondary badge-mini">RR.HH.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="text-muted">Asistencias (hoy)</div>
+            <div class="h3">{{ asistencias_hoy }}</div>
+          </div>
+          <span class="badge text-bg-secondary badge-mini">Registro</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="text-muted mb-2">Últimos períodos</div>
+        <ul class="list-group list-group-flush">
+          {% for p in periodos %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="{{ url_for('nomina_detalle', pid=p.id) }}">{{ p.nombre }}</a>
+            <span class="badge text-bg-light">{{ p.estado }}</span>
+          </li>
+          {% else %}
+          <li class="list-group-item">Sin períodos</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
